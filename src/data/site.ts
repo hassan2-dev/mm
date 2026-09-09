@@ -22,7 +22,7 @@ export type Memory = {
  * ضع رابط النشر النهائي هنا لاحقاً.
  * إذا كان فارغاً، الـ QR والمشاركة يستخدمان رابط الصفحة الحالية.
  */
-export const SITE_URL_OVERRIDE = "";
+export const SITE_URL_OVERRIDE: string = "";
 
 export function getSiteUrl() {
   if (SITE_URL_OVERRIDE) return SITE_URL_OVERRIDE.replace(/\/?$/, "/");
