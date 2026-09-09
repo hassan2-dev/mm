@@ -46,8 +46,14 @@ export function useMusicPlayer({ songs, enabled }: Options) {
     audio.src = song.src;
     audio.load();
 
+    const startAt = song.startAt ?? 0;
+
     const onCanPlay = () => {
-      if (!cancelled) setReady(true);
+      if (cancelled) return;
+      if (startAt > 0 && audio.currentTime < startAt) {
+        audio.currentTime = startAt;
+      }
+      setReady(true);
     };
     const onError = () => {
       if (!cancelled) {
@@ -55,16 +61,42 @@ export function useMusicPlayer({ songs, enabled }: Options) {
         setError("أضف ملفات MP3 في مجلد music");
       }
     };
+    const onSeekedLoop = () => {
+      // عند تكرار الأغنية، ابدأ من startAt بدل الثانية 0
+      if (startAt > 0 && audio.currentTime < startAt) {
+        audio.currentTime = startAt;
+      }
+    };
 
     audio.addEventListener("canplay", onCanPlay);
     audio.addEventListener("error", onError);
+    audio.addEventListener("seeked", onSeekedLoop);
 
     return () => {
       cancelled = true;
       audio.removeEventListener("canplay", onCanPlay);
       audio.removeEventListener("error", onError);
+      audio.removeEventListener("seeked", onSeekedLoop);
     };
-  }, [song?.src]);
+  }, [song?.src, song?.startAt]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !song) return;
+
+    const startAt = song.startAt ?? 0;
+    if (startAt <= 0) return;
+
+    // مع loop الأصلي، الرجوع لـ 0 يتجاوز startAt — نعيد التموضع
+    const onTimeUpdate = () => {
+      if (audio.loop && audio.currentTime < startAt && audio.currentTime < 0.35) {
+        audio.currentTime = startAt;
+      }
+    };
+
+    audio.addEventListener("timeupdate", onTimeUpdate);
+    return () => audio.removeEventListener("timeupdate", onTimeUpdate);
+  }, [song?.src, song?.startAt]);
 
   useEffect(() => {
     const audio = audioRef.current;

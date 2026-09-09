@@ -7,6 +7,8 @@ export type Song = {
   title: string;
   artist: string;
   src: string;
+  /** تخطي ثوانٍ من بداية الأغنية */
+  startAt?: number;
 };
 
 export type Memory = {
@@ -151,6 +153,7 @@ export const songs: Song[] = [
     title: "أغنية الافتتاح",
     artist: "ضع song1.mp3",
     src: "/music/song1.mp3",
+    startAt: 33,
   },
   {
     title: "أغنية الذكريات",
