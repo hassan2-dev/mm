@@ -448,10 +448,11 @@ button {
   --env-w: min(100%, 22rem);
   position: relative;
   width: var(--env-w);
-  margin-inline: auto;
+  margin: 5.5rem auto 0;
   aspect-ratio: 1.15 / 1;
   perspective: 1100px;
   isolation: isolate;
+  overflow: visible;
 }
 
 .envelope__pocket {
@@ -464,6 +465,7 @@ button {
   box-shadow: var(--shadow);
   z-index: 2;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .envelope__inner {
@@ -488,6 +490,7 @@ button {
   box-shadow: 0 10px 24px rgba(42, 33, 24, 0.12);
   z-index: 4;
   backface-visibility: hidden;
+  pointer-events: none;
 }
 
 .envelope__front {
@@ -523,13 +526,17 @@ button {
   position: absolute;
   left: 6%;
   right: 6%;
-  top: 8%;
+  top: 18%;
   z-index: 3;
   will-change: transform;
 }
 
 .envelope[data-open] .envelope__card {
   z-index: 6;
+}
+
+.envelope[data-open] .envelope__flap {
+  z-index: 1;
 }
 
 .invite-card {

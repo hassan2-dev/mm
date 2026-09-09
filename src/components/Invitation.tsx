@@ -94,10 +94,10 @@ export function Invitation({ onOpenCard }: Props) {
               initial={false}
               animate={
                 reduce
-                  ? { y: "-42%", opacity: 1 }
+                  ? { y: "-58%", opacity: 1 }
                   : opened
-                    ? { y: "-42%", opacity: 1 }
-                    : { y: "18%", opacity: 0.95 }
+                    ? { y: "-58%", opacity: 1 }
+                    : { y: "28%", opacity: 0.9 }
               }
               transition={{
                 duration: 1.05,
